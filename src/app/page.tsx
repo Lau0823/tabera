@@ -9,7 +9,9 @@ import { ArrowUpRight, MessageCircle, Heart, Star, Sparkles, ChevronDown } from 
 const bannerImages = [
   "https://i.pinimg.com/736x/c6/d0/0a/c6d00abed2345b530962f85540249b5d.jpg",
   "https://i.pinimg.com/736x/e3/58/7a/e3587a95434f3cf426c7580fce00af7f.jpg",
-  "https://i.pinimg.com/736x/42/2f/e8/422fe8a66e4851aadc50ece515174990.jpg"
+  "https://i.pinimg.com/736x/42/2f/e8/422fe8a66e4851aadc50ece515174990.jpg",
+  "https://i.pinimg.com/1200x/21/5b/2a/215b2a9ae12ed3f5b2c4213668889f9f.jpg"
+  
 ];
 
 const categoriasRutas = [
