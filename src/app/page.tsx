@@ -202,7 +202,7 @@ export default function Home() {
           
           <div className="pt-8 flex flex-col sm:flex-row justify-center gap-4 max-w-xs mx-auto">
             <button 
-              onClick={() => dispatchWhatsApp('Asesoría General Banner')}
+              onClick={() => dispatchWhatsApp('quiero mas info')}
               className="bg-[#C5A880] text-white font-black text-[11px] tracking-[0.25em] uppercase px-8 py-4.5 rounded-full shadow-lg hover:bg-white hover:text-[#2C2927] transition-all flex items-center justify-center gap-2"
             >
               <MessageCircle className="w-4 h-4 fill-current" />
