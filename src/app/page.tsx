@@ -16,7 +16,10 @@ const bannerImages = [
 const categoriasRutas = [
   { name: 'Bodas', tag: 'Tu Gran Día', path: '/catalogo/bodas', img: 'https://i.pinimg.com/736x/5b/85/b8/5b85b8604c9eec06a013527e9f6c95dc.jpg' },
   { name: '15 Años', tag: 'Tus Dulces 15', path: '/catalogo/15', img: 'https://i.pinimg.com/736x/f4/6c/82/f46c823a617370331576d93e96f1b80d.jpg' },
+  { name: 'Cumpleaños', tag: 'Un Año Más de Luz', path: '/catalogo/cumpleanos', img: 'https://i.pinimg.com/736x/e3/58/7a/e3587a95434f3cf426c7580fce00af7f.jpg' },
+  { name: 'Grados', tag: 'Nuevos Horizontes', path: '/catalogo/grados', img: 'https://i.pinimg.com/736x/42/2f/e8/422fe8a66e4851aadc50ece515174990.jpg' },
   { name: 'Baby Shower', tag: 'La Bienvenida', path: '/catalogo/babys', img: 'https://i.pinimg.com/736x/fd/ab/42/fdab42f7a6abf9ab93e958fe234218b6.jpg' },
+  { name: 'Detalles', tag: 'Pequeños Gestos', path: '/catalogo/detalles', img: 'https://i.pinimg.com/1200x/21/5b/2a/215b2a9ae12ed3f5b2c4213668889f9f.jpg' },
   { name: 'Línea Pet', tag: 'Huellas Eternas', path: '/catalogo/lineapet', img: 'https://i.pinimg.com/736x/9b/54/8f/9b548f576188e8d2d18a28ada05c7d46.jpg' }
 ];
 
@@ -24,7 +27,7 @@ const aromas = [
   { 
     id: 0, 
     name: 'Rosas Blancas & Lino', 
-    desc: 'Sutil, limpio y profundamente romántico. Diseñado para evocar pureza y frescura en celebraciones nupciales.', 
+    desc: 'Sutil, limpio y profundamente romántico. Diseñado para evocar pureza y freshness en celebraciones nupciales.', 
     img: 'https://i.pinimg.com/736x/e3/58/7a/e3587a95434f3cf426c7580fce00af7f.jpg',
     btnColor: 'bg-[#F5E1E1]', 
     textColor: 'text-[#614A4A]' 
@@ -55,51 +58,6 @@ const aromas = [
   }
 ];
 
-const planesData = [
-  {
-    id: 'gold',
-    name: 'Esencia Gold',
-    volumen: '12 a 30 unidades',
-    precio: '$18.500 COP / u',
-    img: 'https://i.pinimg.com/736x/c6/d0/0a/c6d00abed2345b530962f85540249b5d.jpg',
-    beneficios: [
-      'Velas en envase de vidrio estándar premium',
-      'Etiqueta personalizada con diseño básico floral',
-      'Esencias botánicas de línea (Rosas o Lavanda)',
-      'Empaque individual en bolsa de organza cristal'
-    ]
-  },
-  {
-    id: 'platinum',
-    name: 'Esencia Platinum',
-    volumen: '31 a 70 unidades',
-    precio: '$16.000 COP / u',
-    img: 'https://i.pinimg.com/736x/cd/e3/69/cde369f90899dfa24f7a30d7c5d2e65c.jpg',
-    beneficios: [
-      'Envases de vidrio italiano texturizado o moldes orgánicos',
-      'Tags personalizados impresos en papel texturizado de algodón',
-      'Acceso completo a toda la carta de esencias exclusivas',
-      'Capa superior decorativa con destellos de pan de oro',
-      'Empaque premium en saquitos de lino con lazo'
-    ]
-  },
-  {
-    id: 'diamond',
-    name: 'Esencia Diamond',
-    volumen: 'Más de 70 unidades',
-    precio: '$14.500 COP / u',
-    img: 'https://i.pinimg.com/736x/f3/b9/da/f3b9da103b80b59c1c1bc703e1bc1578.jpg',
-    beneficios: [
-      'Piezas de diseño escultural y moldes artísticos',
-      'Diseño de identidad gráfica premium para tu fecha',
-      'Fragancia botánica fina de autor a tu medida',
-      'Incrustaciones de cuarzos facetados naturales',
-      'Cajas rígidas de lujo con estampado de foil dorado',
-      'Envío prioritario nacional asegurado incluido'
-    ]
-  }
-];
-
 const testimonios = [
   { nombre: "Camila & Alejandro", evento: "Boda", texto: "Las velas de tabera fueron el éxito de nuestro matrimonio. Los invitados quedaron enamorados de las esencias de Rosas y el pan de oro.", avatar: "https://i.pinimg.com/736x/cd/e3/69/cde369f90899dfa24f7a30d7c5d2e65c.jpg" },
   { nombre: "Mariana Valencia", evento: "Mis 15 Años", texto: "Buscaba algo diferente y muy fino para mis recordatorios. Las velas con el cuarzo rosa combinaron hermoso con mi mesa principal.", avatar: "https://i.pinimg.com/736x/42/2f/e8/422fe8a66e4851aadc50ece515174990.jpg" },
@@ -109,7 +67,6 @@ const testimonios = [
 export default function Home() {
   const [activeBanner, setActiveBanner] = useState(0);
   const [activeAroma, setActiveAroma] = useState(0);
-  const [activePlan, setActivePlan] = useState('platinum');
   const [activeTestimonio, setActiveTestimonio] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -180,17 +137,17 @@ export default function Home() {
           </button>
         </div>
 
-        <div className="flex flex-col space-y-5 my-auto text-left pl-4 max-w-xl">
+        <div className="flex flex-col space-y-4 my-auto text-left pl-4 max-w-xl overflow-y-auto max-h-[60vh] pr-2 scrollbar-thin">
           <span className="text-[10px] tracking-[0.4em] text-[#2C2927]/60 uppercase font-black font-mono">[ NAVEGACIÓN ]</span>
           
           <button 
             onClick={() => { setIsMenuOpen(false); scrollToNextSection(0); }} 
-            className="font-sans text-4xl md:text-5xl font-black uppercase text-left tracking-tight text-[#2C2927] hover:text-white transition-colors"
+            className="font-sans text-3xl md:text-4xl font-black uppercase text-left tracking-tight text-[#2C2927] hover:text-white transition-colors"
           >
             Inicio
           </button>
 
-          <div className="h-[1px] bg-[#2C2927]/10 my-2" />
+          <div className="h-[1px] bg-[#2C2927]/10 my-1" />
           <span className="text-[10px] tracking-[0.4em] text-[#2C2927]/60 uppercase font-black font-mono">[ ¿QUÉ MOMENTO VAS A CELEBRAR? ]</span>
 
           {categoriasRutas.map((cat, i) => (
@@ -200,10 +157,10 @@ export default function Home() {
               className="group flex justify-between items-center text-left"
               onClick={() => setIsMenuOpen(false)}
             >
-              <span className="font-sans text-2xl md:text-3xl font-black uppercase text-[#2C2927] group-hover:text-white transition-colors">
+              <span className="font-sans text-xl md:text-2xl font-black uppercase text-[#2C2927] group-hover:text-white transition-colors">
                 {cat.name}
               </span>
-              <ArrowUpRight className="w-5 h-5 text-[#2C2927]/40 group-hover:text-white transition-colors" />
+              <ArrowUpRight className="w-4 h-4 text-[#2C2927]/40 group-hover:text-white transition-colors" />
             </Link>
           ))}
         </div>
@@ -266,13 +223,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 🌸 NUEVA SECTION 2: FRASE LINDA EN CURSIVA EDITORIAL */}
+      {/* 🌸 SECTION 2: FRASE LINDA EN CURSIVA EDITORIAL */}
       <section className="w-full h-screen flex flex-col justify-center items-center bg-[#FAF8F5] snap-start shrink-0 p-8 text-center border-b border-[#2C2927]/5 relative">
         <div className="absolute top-12 left-1/2 -translate-x-1/2 text-[9px] tracking-[0.4em] text-neutral-400 font-mono uppercase">
           [ la filosofía tabera ]
         </div>
         <div className="max-w-3xl space-y-6">
-        
           <p className="font-serif italic text-3xl md:text-6xl text-[#2C2927] leading-tight tracking-wide px-4">
             "Que cada uno de tus invitados se lleve a casa un destello de tu historia, envuelto en aromas que perduran en el alma."
           </p>
@@ -287,7 +243,7 @@ export default function Home() {
         </button>
       </section>
 
-      {/* SECTIONS 3, 4, 5, 6: CATEGORÍAS INMERSIVAS SNAP FULL-SCREEN */}
+      {/* SECTIONS 3 EN ADELANTE: CATEGORÍAS INMERSIVAS SNAP FULL-SCREEN (7 SECCIONES) */}
       {categoriasRutas.map((cat, idx) => (
         <section 
           key={idx}
@@ -299,7 +255,7 @@ export default function Home() {
           </div>
 
           <div className="relative z-10 flex justify-between items-center text-white">
-            <span className="text-white/60 font-mono text-sm font-bold">0{idx + 1} / 04</span>
+            <span className="text-white/60 font-mono text-sm font-bold">0{idx + 1} / 07</span>
             <span className="text-[10px] text-[#2C2927] font-black tracking-widest uppercase bg-[#d8d8f6] px-4 py-1.5 rounded-full shadow-sm">{cat.tag}</span>
           </div>
 
@@ -328,7 +284,7 @@ export default function Home() {
         </section>
       ))}
 
-      {/* SECTION 7: NUESTROS AROMAS */}
+      {/* SECTION: NUESTROS AROMAS */}
       <section className="w-full h-screen flex flex-col justify-center items-center bg-white snap-start shrink-0 p-6 relative overflow-hidden">
         <div className="max-w-4xl w-full mx-auto space-y-8 relative z-10">
           <div className="text-center space-y-1">
@@ -371,7 +327,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 8: PROCESO ARTESANAL DETRÁS DE LAS VELAS */}
+      {/* SECTION: PROCESO ARTESANAL DETRÁS DE LAS VELAS */}
       <section className="w-full h-screen flex flex-col justify-between bg-neutral-950 snap-start shrink-0 relative overflow-hidden text-white p-6 md:p-12">
         <div className="absolute inset-0 z-0 opacity-40">
           <video autoPlay muted loop playsInline className="w-full h-full object-cover">
@@ -396,81 +352,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 9: SECCIÓN DE PLANES CON CARD DE GRAN ESCALA (LIBRE DE CORTES) */}
-      <section className="w-full min-h-screen md:h-screen flex flex-col justify-center items-center bg-[#C5A880] snap-start shrink-0 p-4 md:p-8 relative overflow-hidden">
-        <div className="max-w-4xl w-full mx-auto space-y-4 md:space-y-6 relative z-10">
-          
-          <div className="text-center space-y-0.5">
-            <span className="font-serif italic text-2xl md:text-3xl text-white block lowercase">presupuesto</span>
-            <h2 className="font-sans text-2xl md:text-4xl font-black uppercase tracking-tight text-[#2C2927]">Opciones por Cantidad</h2>
-          </div>
-
-          {/* Filtros Circulares */}
-          <div className="flex justify-center bg-white/20 backdrop-blur-md p-1 rounded-full max-w-xs md:max-w-md mx-auto shadow-sm border border-white/20">
-            {planesData.map((plan) => (
-              <button
-                key={plan.id}
-                onClick={() => setActivePlan(plan.id)}
-                className={`flex-1 text-center py-2.5 md:py-3.5 rounded-full text-[10px] md:text-[11px] font-black uppercase tracking-wider transition-all ${activePlan === plan.id ? 'bg-[#2C2927] text-white shadow-sm' : 'text-[#2C2927]/70 font-bold'}`}
-              >
-                {plan.id}
-              </button>
-            ))}
-          </div>
-
-          {/* Tarjeta Monumental */}
-          {planesData.filter(p => p.id === activePlan).map((plan) => (
-            <div key={plan.id} className="w-full max-w-3xl mx-auto space-y-5 animate-fadeIn">
-              
-              <div className="bg-white rounded-3xl overflow-hidden shadow-2xl grid grid-cols-1 md:grid-cols-12 min-h-[340px] md:min-h-[420px] transition-all duration-300">
-                <div className="relative h-56 md:h-full md:col-span-5 bg-neutral-100">
-                  <Image 
-                    src={plan.img} 
-                    alt={plan.name} 
-                    fill 
-                    sizes="(max-width: 768px) 100vw, 400px" 
-                    className="object-cover object-center" 
-                  />
-                </div>
-
-                <div className="p-6 md:p-10 md:col-span-7 flex flex-col justify-center space-y-5">
-                  <div className="flex justify-between items-baseline border-b border-neutral-100 pb-3">
-                    <div>
-                      <span className="text-[10px] font-black tracking-widest text-[#96a89c] uppercase block">{plan.volumen}</span>
-                      <h4 className="font-sans text-xl md:text-2xl font-black uppercase text-[#2C2927] mt-0.5">{plan.name}</h4>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-base md:text-xl font-black text-[#C5A880]">{plan.precio}</div>
-                    </div>
-                  </div>
-                  
-                  <ul className="space-y-2.5 text-xs font-medium text-neutral-600 text-left">
-                    {plan.beneficios.map((b, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5 leading-snug">
-                        <span className="text-[#96a89c] text-sm shrink-0">✦</span> <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Botón Circular Debajo */}
-              <div className="w-full">
-                <button 
-                  onClick={() => dispatchWhatsApp(`Inversión ${plan.name}`)}
-                  className="w-full bg-[#2C2927] text-white text-[11px] tracking-[0.2em] uppercase font-black py-4.5 rounded-full flex items-center justify-center gap-2 hover:bg-white hover:text-[#2C2927] transition-all shadow-xl active:scale-98"
-                >
-                  <MessageCircle className="w-4 h-4 fill-current" />
-                  Elegir esta opción para mi evento
-                </button>
-              </div>
-
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* SECTION 10: CARRUSEL DE TESTIMONIOS */}
+      {/* SECTION: CARRUSEL DE TESTIMONIOS */}
       <section className="w-full h-screen flex flex-col justify-center items-center bg-[#C5A880]/90 snap-start shrink-0 p-6 relative overflow-hidden">
         <div className="max-w-3xl w-full mx-auto space-y-8 relative z-10">
           <div className="text-center space-y-1">
@@ -516,7 +398,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 11: FOOTER */}
+      {/* SECTION: FOOTER */}
       <footer className="w-full h-screen flex flex-col justify-center items-center bg-[#C5A880] text-[#2C2927] snap-start shrink-0 p-6 text-center text-[10px] tracking-widest relative">
         <div className="space-y-6 max-w-md relative z-10">
           <div className="flex justify-center mb-2">
