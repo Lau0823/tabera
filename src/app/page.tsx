@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Roboto_Condensed, Fraunces } from 'next/font/google';
+import { ChevronLeft, ChevronRight, Sparkles, Flame, ShieldCheck } from 'lucide-react';
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ['latin'],
@@ -18,10 +20,45 @@ const fuenteHoliday = Fraunces({
 
 const NUMERO_WHATSAPP = '573123592141';
 
+// Tus imágenes exactas del banner
 const IMAGENES_BANNER = [
-  "/osito.png",
-  "/flores.png",
-  "/velas de colores.png"
+  "/velas2.png",
+  "/matrimonio.png",
+  "/banner.png"
+];
+
+// Círculos interactivos de categorías
+const CIRCULOS_CATEGORIAS = [
+  {
+    id: 1,
+    titulo: 'Bodas',
+    ruta: '/catalogo/bodas',
+    img: '/matrimonio.png',
+  },
+  {
+    id: 2,
+    titulo: '15 Años',
+    ruta: '/catalogo/15-anos',
+    img: '/velas2.png',
+  },
+  {
+    id: 3,
+    titulo: 'Baby Shower',
+    ruta: '/catalogo/baby-shower',
+    img: '/banner.png',
+  },
+  {
+    id: 4,
+    titulo: 'Verano',
+    ruta: '/catalogo/verano',
+    img: '/velas2.png',
+  },
+  {
+    id: 5,
+    titulo: 'Línea Pet',
+    ruta: '/catalogo/linea-pet',
+    img: '/matrimonio.png',
+  }
 ];
 
 export default function HomeVelas() {
@@ -58,59 +95,35 @@ export default function HomeVelas() {
     const intervalFotos = setInterval(() => {
       setImagenAnterior(imagenActiva);
       setImagenActiva((prev) => (prev + 1) % IMAGENES_BANNER.length);
-    }, 5000);
+    }, 5500);
     return () => clearInterval(intervalFotos);
   }, [splash, imagenActiva]);
 
-  const cotizar = () => {
-    window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent('Hola, deseo cotizar.')}`, '_blank');
+  // Controles de navegación manual en el banner
+  const retrocederFoto = () => {
+    setImagenAnterior(imagenActiva);
+    setImagenActiva((prev) => (prev === 0 ? IMAGENES_BANNER.length - 1 : prev - 1));
+  };
+
+  const avanzarFoto = () => {
+    setImagenAnterior(imagenActiva);
+    setImagenActiva((prev) => (prev + 1) % IMAGENES_BANNER.length);
+  };
+
+  const cotizar = (asunto = 'general') => {
+    window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(`Hola tabera, deseo cotizar sobre: ${asunto}`)}`, '_blank');
   };
 
   return (
-    <main className={`relative w-full h-[100dvh] overflow-hidden bg-black text-white ${robotoCondensed.className}`}>
+    <main className={`relative w-full min-h-screen overflow-x-hidden bg-white text-stone-700 ${robotoCondensed.className}`}>
 
-      {/* BANNER LIMPIO CON IMÁGENES AL 100% */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden">
-        {/* Capa de respaldo fija */}
-        <div className="absolute inset-0 w-full h-full z-0">
-          <Image
-            src={IMAGENES_BANNER[imagenAnterior]}
-            alt="Fondo respaldo"
-            fill
-            priority
-            unoptimized
-            className="object-cover"
-          />
-        </div>
-
-        {/* Capa activa con transición */}
-        {IMAGENES_BANNER.map((src, index) => {
-          const estaActiva = index === imagenActiva;
-          return (
-            <div
-              key={index}
-              className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
-                estaActiva ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
-              }`}
-            >
-              <Image
-                src={src}
-                alt={`Banner tabera ${index + 1}`}
-                fill
-                priority
-                unoptimized
-                className="object-cover"
-              />
-            </div>
-          );
-        })}
-      </div>
-
-      {/* 1. SPLASH: CARD EN GLASS CON "Hola" */}
+      {/* ========================================================
+          1. SPLASH: CARD EN GLASS CON "Hola"
+          ======================================================== */}
       {splash && (
         <div
           onClick={() => { setDesvanecer(true); setTimeout(() => setSplash(false), 500); }}
-          className={`fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/20 backdrop-blur-xs transition-opacity duration-700 cursor-pointer ${
+          className={`fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/20 backdrop-blur-xs transition-opacity duration-700 cursor-pointer ${
             desvanecer ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}
         >
@@ -123,32 +136,14 @@ export default function HomeVelas() {
         </div>
       )}
 
-      {/* 2. LOGO "tabera" + TEXTO GIGANTE DIRECTO SIN CARD GLASS */}
-      <div className="absolute top-6 sm:top-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center pointer-events-none text-center px-4 w-full max-w-4xl">
-        
-        {/* Logo "tabera" grande y limpio */}
-        <h1 className="text-4xl sm:text-7xl md:text-8xl font-black uppercase tracking-[0.25em] text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.7)] leading-none">
-          tabera
-        </h1>
-
-        {/* Texto debajo sin caja, letras grandes con jerarquía */}
-        <div className="mt-3 sm:mt-5 flex flex-col items-center gap-0.5 sm:gap-1.5">
-          <span className="text-sm sm:text-xl md:text-2xl font-bold uppercase tracking-[0.35em] text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-            Encuentra
-          </span>
-          <span className="text-3xl sm:text-6xl md:text-7xl font-black uppercase tracking-tight text-white drop-shadow-[0_4px_25px_rgba(0,0,0,0.85)] leading-tight">
-            TODO LO QUE NECESITAS
-          </span>
-        </div>
-
-      </div>
-
-      {/* 3. TRES RAYITAS (MENÚ HAMBURGUESA) */}
-      <header className="fixed top-0 right-0 z-40 p-6 sm:p-8">
+      {/* ========================================================
+          2. HEADER / TRES RAYITAS (MENÚ HAMBURGUESA)
+          ======================================================== */}
+      <header className="fixed top-0 right-0 z-40 p-6 sm:p-8 pointer-events-none">
         <button
           onClick={() => setMenuAbierto(!menuAbierto)}
-          className="w-12 h-12 rounded-full bg-black/25 hover:bg-black/45 backdrop-blur-xl border border-white/30 flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-lg"
-          aria-label="Menú"
+          className="pointer-events-auto w-12 h-12 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-xl border border-white/30 flex flex-col items-center justify-center gap-1.5 transition-all active:scale-95 cursor-pointer shadow-lg"
+          aria-label="Abrir Menú"
         >
           <span className="w-5 h-[2px] bg-white rounded-full" />
           <span className="w-5 h-[2px] bg-white rounded-full" />
@@ -156,36 +151,333 @@ export default function HomeVelas() {
         </button>
       </header>
 
-      {/* 4. PARTE INFERIOR: BOTÓN COTIZAR + INDICADORES */}
-      <section className="relative z-30 w-full h-full flex flex-col justify-end items-center pb-10 sm:pb-14 px-4 pointer-events-none">
+      {/* ========================================================
+          3. BANNER PRINCIPAL FULL SCREEN
+          ======================================================== */}
+      <section className="relative w-full h-[100dvh] overflow-hidden bg-black text-white">
         
-        {/* Botón Cotizar */}
+        {/* Carrusel continuo sin cortes negros */}
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
+          <div className="absolute inset-0 w-full h-full z-0">
+            <Image
+              src={IMAGENES_BANNER[imagenAnterior]}
+              alt="Fondo anterior"
+              fill
+              priority
+              unoptimized
+              className="object-cover"
+            />
+          </div>
+
+          {IMAGENES_BANNER.map((src, index) => {
+            const estaActiva = index === imagenActiva;
+            return (
+              <div
+                key={index}
+                className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
+                  estaActiva ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'
+                }`}
+              >
+                <Image
+                  src={src}
+                  alt={`Banner ${index + 1}`}
+                  fill
+                  priority
+                  unoptimized
+                  className="object-cover"
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* LOGO "tabera" + TEXTO GIGANTE EN LA PARTE SUPERIOR */}
+        <div className="absolute top-6 sm:top-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center pointer-events-none text-center px-4 w-full max-w-4xl">
+          <h1 className="text-4xl sm:text-7xl md:text-8xl font-black uppercase tracking-[0.25em] text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.7)] leading-none">
+            tabera
+          </h1>
+
+          <div className="mt-2 sm:mt-4 flex flex-col items-center gap-0.5">
+            <span className="text-sm sm:text-lg md:text-xl font-bold uppercase tracking-[0.35em] text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+              Encuentra
+            </span>
+            <span className="text-2xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-white drop-shadow-[0_4px_25px_rgba(0,0,0,0.85)] leading-tight">
+              TODO LO QUE NECESITAS
+            </span>
+          </div>
+        </div>
+
+        {/* BOTONES ANTERIOR Y SIGUIENTE EN GLASS */}
         <button
-          onClick={cotizar}
-          className="pointer-events-auto px-12 py-4 sm:px-14 sm:py-4.5 rounded-full bg-white/20 hover:bg-white/35 backdrop-blur-2xl border border-white/50 text-white text-base sm:text-lg font-black uppercase tracking-[0.25em] shadow-[0_15px_35px_rgba(0,0,0,0.35)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+          onClick={retrocederFoto}
+          className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur-2xl border border-white/40 text-white flex items-center justify-center transition-all active:scale-90 shadow-xl cursor-pointer"
+          aria-label="Foto anterior"
         >
-          Cotizar
+          <ChevronLeft className="w-6 h-6 stroke-[2.5]" />
         </button>
 
-        {/* Indicadores de carrusel */}
-        <div className="pointer-events-auto flex gap-2 mt-4">
-          {IMAGENES_BANNER.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                setImagenAnterior(imagenActiva);
-                setImagenActiva(i);
-              }}
-              className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
-                i === imagenActiva ? 'w-8 bg-white' : 'w-2 bg-white/40 hover:bg-white/70'
-              }`}
-              aria-label={`Ver foto ${i + 1}`}
-            />
-          ))}
+        <button
+          onClick={avanzarFoto}
+          className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/15 hover:bg-white/30 backdrop-blur-2xl border border-white/40 text-white flex items-center justify-center transition-all active:scale-90 shadow-xl cursor-pointer"
+          aria-label="Siguiente foto"
+        >
+          <ChevronRight className="w-6 h-6 stroke-[2.5]" />
+        </button>
+
+        {/* PARTE INFERIOR: BOTÓN ROSADO CON LETRAS EN VERDE LIMÓN */}
+        <div className="relative z-30 w-full h-full flex flex-col justify-end items-center pb-12 sm:pb-16 px-4 pointer-events-none">
+          <button
+            onClick={() => cotizar('Banner Principal')}
+            className="pointer-events-auto px-14 py-4.5 rounded-full bg-[#FF9DB1] hover:bg-[#ff859d] text-[#D8FF38] text-lg sm:text-xl font-black uppercase tracking-[0.2em] shadow-[0_12px_35px_rgba(255,157,177,0.45)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-[#FF9DB1]/60"
+          >
+            Cotizar
+          </button>
+
+          {/* Indicadores de fotos */}
+          <div className="pointer-events-auto flex gap-2 mt-4">
+            {IMAGENES_BANNER.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setImagenAnterior(imagenActiva);
+                  setImagenActiva(i);
+                }}
+                className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
+                  i === imagenActiva ? 'w-8 bg-[#D8FF38]' : 'w-2 bg-white/40 hover:bg-white/70'
+                }`}
+                aria-label={`Ver foto ${i + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+
+      </section>
+
+      {/* ========================================================
+          4. SECCIÓN DE BOTONES CIRCULARES COMPACTOS (NO SE SALEN)
+          ======================================================== */}
+      <section className="w-full bg-[#FFFBFB] py-8 sm:py-12 px-4 sm:px-6 border-b border-stone-100 overflow-hidden">
+        <div className="max-w-5xl mx-auto text-center space-y-6">
+          <div className="space-y-1">
+            <span className="text-[11px] uppercase tracking-[0.3em] text-[#FF9DB1] font-bold font-mono">
+              [ COLECCIONES ]
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-extrabold uppercase tracking-tight text-stone-700/90">
+              Explora por Ocasión
+            </h2>
+          </div>
+
+          {/* Fila de círculos más pequeños y proporcionados */}
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 md:gap-8 py-2">
+            {CIRCULOS_CATEGORIAS.map((cat) => (
+              <Link
+                key={cat.id}
+                href={cat.ruta}
+                className="group flex flex-col items-center gap-2 cursor-pointer transition-transform hover:-translate-y-1"
+              >
+                {/* Círculo compacto */}
+                <div className="relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden p-1 bg-[#FF9DB1]/20 border-2 border-[#FF9DB1] group-hover:border-[#D8FF38] group-hover:shadow-[0_8px_20px_rgba(255,157,177,0.35)] transition-all duration-300">
+                  <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
+                    <Image
+                      src={cat.img}
+                      alt={cat.titulo}
+                      fill
+                      unoptimized
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  </div>
+                </div>
+
+                <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-stone-600 group-hover:text-[#FF9DB1] transition-colors">
+                  {cat.titulo}
+                </span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* 5. MENÚ LATERAL */}
+      {/* ========================================================
+          5. SECCIÓN EN BLANCO CON TEXTO DESVANECIDO
+          ======================================================== */}
+      <section className="w-full py-16 sm:py-24 px-6 bg-white text-center border-b border-stone-100">
+        <div className="max-w-3xl mx-auto space-y-5">
+          <span className="text-xs uppercase tracking-[0.35em] text-[#FF9DB1] font-bold font-mono">
+            [ EL ARTE DE LA CERA LIMPIA ]
+          </span>
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-stone-700 leading-tight">
+            Diseñadas para perdurar en la memoria.
+          </h2>
+          <p className="text-base sm:text-xl text-stone-500 font-normal leading-relaxed">
+            Cada vela es vertida pacientemente de forma artesanal con cera vegetal pura y pabilos de algodón sin plomo, logrando una combustión pausada, silenciosa y libre de toxinas.
+          </p>
+          <div className="pt-2 flex justify-center">
+            <button
+              onClick={() => cotizar('Conocer más')}
+              className="px-9 py-3.5 rounded-full bg-[#FF9DB1] hover:bg-[#ff859d] text-[#D8FF38] text-xs sm:text-sm font-black uppercase tracking-[0.2em] shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            >
+              Conocer el Atelier
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          6. SECCIÓN PRODUCTOS: FONDO ROSADO + CARDS EN GLASS
+          ======================================================== */}
+      <section className="w-full py-16 sm:py-24 px-6 bg-[#FF9DB1] text-white">
+        <div className="max-w-6xl mx-auto space-y-10">
+          
+          <div className="text-center space-y-1">
+            <span className="text-xs uppercase tracking-[0.3em] text-[#D8FF38] font-bold font-mono">
+              [ EDICIÓN ESPECIAL ]
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-white drop-shadow-sm">
+              Modelos Icónicos
+            </h2>
+          </div>
+
+          {/* Grid de Cards en Glass sobre fondo Rosado */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {[
+              { titulo: 'Verano & Mandarina', tag: 'Cítrica Radiante', desc: 'Aroma fresco de frutos soleados y flores dulces para iluminar tus espacios con energía.', img: '/velas2.png' },
+              { titulo: 'Girl Power Rose', tag: 'Floral Femenina', desc: 'Champagne rosé y toques de peonía en frasco de cristal puro para momentos únicos.', img: '/matrimonio.png' },
+              { titulo: 'Big Dreams', tag: 'Lavanda & Vainilla', desc: 'Calma serena y relajación profunda. La aliada ideal para terminar el día en paz.', img: '/banner.png' }
+            ].map((prod, idx) => (
+              <div 
+                key={idx}
+                className="group rounded-3xl p-6 bg-white/[0.12] backdrop-blur-2xl border border-white/35 shadow-[0_20px_45px_rgba(0,0,0,0.12)] flex flex-col justify-between hover:-translate-y-1.5 transition-all duration-300"
+              >
+                <div className="relative w-full h-56 sm:h-64 rounded-2xl overflow-hidden mb-5 bg-white/20">
+                  <Image
+                    src={prod.img}
+                    alt={prod.titulo}
+                    fill
+                    unoptimized
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+
+                <div className="space-y-2 text-left mb-6">
+                  <span className="text-xs uppercase tracking-widest text-[#D8FF38] font-bold">
+                    {prod.tag}
+                  </span>
+                  <h3 className="text-2xl font-black uppercase text-white">
+                    {prod.titulo}
+                  </h3>
+                  <p className="text-sm text-white/90 leading-relaxed font-normal">
+                    {prod.desc}
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => cotizar(`Vela ${prod.titulo}`)}
+                  className="w-full py-3.5 rounded-full bg-[#FF9DB1] hover:bg-white text-[#D8FF38] hover:text-[#FF9DB1] text-xs font-black uppercase tracking-[0.2em] shadow-md transition-all cursor-pointer border border-[#D8FF38]/50"
+                >
+                  Cotizar Modelo
+                </button>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* ========================================================
+          7. SECCIÓN CON IMAGEN DESCRIPTIVA DEL PRODUCTO
+          ======================================================== */}
+      <section className="w-full py-16 sm:py-24 px-6 bg-white">
+        <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+          
+          {/* Imagen del producto */}
+          <div className="lg:col-span-6 relative flex justify-center">
+            <div className="relative w-full max-w-md h-[380px] sm:h-[480px] rounded-3xl overflow-hidden shadow-xl border border-stone-100">
+              <Image
+                src="/matrimonio.png"
+                alt="Detalle vela artesanal"
+                fill
+                unoptimized
+                className="object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Descripción técnica y suave */}
+          <div className="lg:col-span-6 space-y-5 text-left">
+            <span className="text-xs uppercase tracking-[0.3em] text-[#FF9DB1] font-bold font-mono">
+              [ ANATOMÍA DE LA VELA ]
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-stone-700 leading-tight">
+              Luz pura sin artificios ni residuos negros.
+            </h2>
+            <p className="text-base sm:text-lg text-stone-500 leading-relaxed font-normal">
+              Nuestros recipientes de vidrio son reutilizables y las fragancias se infunden con aceites esenciales botánicos de alta difusión que aromatizan el ambiente incluso apagadas.
+            </p>
+
+            <div className="space-y-3 pt-2 text-stone-600 font-medium">
+              <div className="flex items-center gap-3">
+                <Flame className="w-5 h-5 text-[#FF9DB1]" />
+                <span>45 a 55 horas de combustión homogénea</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <ShieldCheck className="w-5 h-5 text-[#FF9DB1]" />
+                <span>Libre de parafinas, ftalatos y químicos pesados</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Sparkles className="w-5 h-5 text-[#FF9DB1]" />
+                <span>Empaque con lazo de algodón listo para regalo</span>
+              </div>
+            </div>
+
+            <div className="pt-3">
+              <button
+                onClick={() => cotizar('Personalización y medidas')}
+                className="px-10 py-3.5 rounded-full bg-[#FF9DB1] hover:bg-[#ff859d] text-[#D8FF38] text-xs font-black uppercase tracking-[0.2em] shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              >
+                Personalizar Pedido
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ========================================================
+          8. BANNER FULL SCREEN PARA VIDEO
+          ======================================================== */}
+      <section className="relative w-full h-[100dvh] overflow-hidden bg-black flex items-center justify-center text-center px-6">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-85"
+        >
+          <source src="/WhatsApp Video 2026-06-11 at 16.54.48.mp4" type="video/mp4" />
+        </video>
+
+        {/* Mensaje y Botón central */}
+        <div className="relative z-10 max-w-2xl space-y-6">
+          <h2 className="text-4xl sm:text-7xl font-black uppercase tracking-tight text-white drop-shadow-lg leading-tight">
+            El Ritual del Fuego
+          </h2>
+          <p className="text-lg sm:text-2xl text-white/90 leading-relaxed font-normal drop-shadow-md">
+            Un instante de pausa y calidez en medio del caos cotidiano.
+          </p>
+          <div>
+            <button
+              onClick={() => cotizar('Video banner - Cotización directa')}
+              className="px-12 py-4 rounded-full bg-[#FF9DB1] hover:bg-white text-[#D8FF38] hover:text-[#FF9DB1] text-xs sm:text-sm font-black uppercase tracking-[0.2em] shadow-xl hover:scale-105 active:scale-95 transition-all cursor-pointer border border-[#D8FF38]/40"
+            >
+              Pedir Asesoría por WhatsApp
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          9. MENÚ LATERAL DRAWER
+          ======================================================== */}
       {menuAbierto && (
         <div 
           onClick={() => setMenuAbierto(false)} 
@@ -193,19 +485,33 @@ export default function HomeVelas() {
         >
           <div 
             onClick={(e) => e.stopPropagation()} 
-            className="w-72 h-full bg-black/75 backdrop-blur-2xl border-l border-white/20 p-8 flex flex-col justify-center gap-6"
+            className="w-80 h-full bg-white p-8 flex flex-col justify-between shadow-2xl"
           >
-            <button 
-              onClick={() => setMenuAbierto(false)} 
-              className="text-left text-3xl font-black uppercase tracking-wider text-white hover:opacity-75 transition-opacity"
+            <div className="space-y-6">
+              <div className="flex justify-between items-center border-b pb-4">
+                <span className="text-2xl font-black uppercase tracking-wider text-stone-700">tabera</span>
+                <button onClick={() => setMenuAbierto(false)} className="text-xl font-bold text-stone-500">✕</button>
+              </div>
+              
+              <nav className="flex flex-col gap-4 text-left">
+                {CIRCULOS_CATEGORIAS.map((c) => (
+                  <Link
+                    key={c.id}
+                    href={c.ruta}
+                    onClick={() => setMenuAbierto(false)}
+                    className="text-base font-bold uppercase text-stone-600 hover:text-[#FF9DB1] transition-colors"
+                  >
+                    {c.titulo}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+
+            <button
+              onClick={() => { setMenuAbierto(false); cotizar('Menú'); }}
+              className="w-full py-3.5 rounded-full bg-[#FF9DB1] text-[#D8FF38] font-black text-xs uppercase tracking-widest shadow-md"
             >
-              Inicio
-            </button>
-            <button 
-              onClick={cotizar} 
-              className="text-left text-3xl font-black uppercase tracking-wider text-white hover:opacity-75 transition-opacity"
-            >
-              Cotizar
+              Cotizar por WhatsApp
             </button>
           </div>
         </div>
