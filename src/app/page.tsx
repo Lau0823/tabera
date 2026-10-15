@@ -76,7 +76,7 @@ const PRODUCTOS_MOMENTOS = [
     titulo: 'Baby Shower',
     tag: 'Floral Femenina',
     desc: 'Champagne rosé y toques de peonía en frasco de cristal puro para fechas inolvidables.',
-    img: 'https://i.pinimg.com/1200x/01/fe/9c/01fe9cba6091e0704503149768b4713f.jpg',
+    img: 'https://i.pinimg.com/1200x/df/a9/de/dfa9deb229fae665a1d7477f56ef65b6.jpg',
     bgFondo: 'from-[#FF7A97] to-[#FFA8BA]', // Fondo personalizable
   },
   {
