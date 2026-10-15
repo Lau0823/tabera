@@ -33,31 +33,59 @@ const CIRCULOS_CATEGORIAS = [
     id: 1,
     titulo: 'Bodas',
     ruta: '/catalogo/bodas',
-    img: '/matrimonio.png',
+    img: '/matri.png',
   },
   {
     id: 2,
     titulo: '15 Años',
     ruta: '/catalogo/15-anos',
-    img: '/velas2.png',
+    img: '/15.png',
   },
   {
     id: 3,
     titulo: 'Baby Shower',
     ruta: '/catalogo/baby-shower',
-    img: '/banner.png',
+    img: '/babyshower.png',
   },
   {
     id: 4,
     titulo: 'Verano',
     ruta: '/catalogo/verano',
-    img: '/velas2.png',
+    img: '/vernano.png',
   },
   {
     id: 5,
     titulo: 'Línea Pet',
     ruta: '/catalogo/linea-pet',
-    img: '/matrimonio.png',
+    img: '/pet.png',
+  }
+];
+
+// PRODUCTOS PARA "MOMENTOS ESPECIALES" (Fondo personalizable, foto superior y textos naturales debajo)
+const PRODUCTOS_MOMENTOS = [
+  {
+    id: 'Recordatorios de Boda',
+    titulo: 'Matrimonios',
+    tag: 'Cítrica Radiante',
+    desc: 'Aroma fresco de frutos soleados y flores dulces para llenar de vida tus celebraciones.',
+    img: 'https://i.pinimg.com/736x/ce/70/59/ce70594b4ff520dfd9eeffc0266d5b0f.jpg',
+    bgFondo: 'from-[#FF8CA3] to-[#FFB7C5]', // Fondo degradado detrás de la card
+  },
+  {
+    id: 'momento-2',
+    titulo: 'Baby Shower',
+    tag: 'Floral Femenina',
+    desc: 'Champagne rosé y toques de peonía en frasco de cristal puro para fechas inolvidables.',
+    img: 'https://i.pinimg.com/1200x/01/fe/9c/01fe9cba6091e0704503149768b4713f.jpg',
+    bgFondo: 'from-[#FF7A97] to-[#FFA8BA]', // Fondo personalizable
+  },
+  {
+    id: 'momento-3',
+    titulo: '15 años',
+    tag: 'Lavanda & Vainilla',
+    desc: 'Calma serena y relajación profunda. La aliada ideal para atesorar momentos de paz.',
+    img: 'https://i.pinimg.com/736x/ee/6f/b3/ee6fb37c826de6642506fcc492814bca.jpg',
+    bgFondo: 'from-[#E86B85] to-[#FF9DB1]', // Fondo personalizable
   }
 ];
 
@@ -267,7 +295,7 @@ export default function HomeVelas() {
             </h2>
           </div>
 
-          {/* Fila de círculos más pequeños y proporcionados */}
+          {/* Fila de círculos compactos */}
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 md:gap-8 py-2">
             {CIRCULOS_CATEGORIAS.map((cat) => (
               <Link
@@ -275,7 +303,6 @@ export default function HomeVelas() {
                 href={cat.ruta}
                 className="group flex flex-col items-center gap-2 cursor-pointer transition-transform hover:-translate-y-1"
               >
-                {/* Círculo compacto */}
                 <div className="relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden p-1 bg-[#FF9DB1]/20 border-2 border-[#FF9DB1] group-hover:border-[#D8FF38] group-hover:shadow-[0_8px_20px_rgba(255,157,177,0.35)] transition-all duration-300">
                   <div className="relative w-full h-full rounded-full overflow-hidden bg-white">
                     <Image
@@ -303,7 +330,7 @@ export default function HomeVelas() {
       <section className="w-full py-16 sm:py-24 px-6 bg-white text-center border-b border-stone-100">
         <div className="max-w-3xl mx-auto space-y-5">
           <span className="text-xs uppercase tracking-[0.35em] text-[#FF9DB1] font-bold font-mono">
-            [ EL ARTE DE LA CERA LIMPIA ]
+        
           </span>
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-stone-700 leading-tight">
             Diseñadas para perdurar en la memoria.
@@ -316,66 +343,81 @@ export default function HomeVelas() {
               onClick={() => cotizar('Conocer más')}
               className="px-9 py-3.5 rounded-full bg-[#FF9DB1] hover:bg-[#ff859d] text-[#D8FF38] text-xs sm:text-sm font-black uppercase tracking-[0.2em] shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
             >
-              Conocer el Atelier
+              Mas acerca nosotros
             </button>
           </div>
         </div>
       </section>
 
       {/* ========================================================
-          6. SECCIÓN PRODUCTOS: FONDO ROSADO + CARDS EN GLASS
+          6. SECCIÓN "MOMENTOS ESPECIALES" (SIN CARD GLASS):
+          - Imagen del producto (arriba)
+          - Información colocada de forma natural en la parte inferior
           ======================================================== */}
-      <section className="w-full py-16 sm:py-24 px-6 bg-[#FF9DB1] text-white">
-        <div className="max-w-6xl mx-auto space-y-10">
+      <section className="w-full py-20 sm:py-28 px-4 sm:px-8 bg-[#FF9DB1] text-white">
+        <div className="max-w-7xl mx-auto space-y-12">
           
-          <div className="text-center space-y-1">
+          <div className="text-center space-y-2">
             <span className="text-xs uppercase tracking-[0.3em] text-[#D8FF38] font-bold font-mono">
-              [ EDICIÓN ESPECIAL ]
+              [ COLECCIÓN EXCLUSIVA ]
             </span>
-            <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-white drop-shadow-sm">
-              Modelos Icónicos
+            <h2 className="text-4xl sm:text-6xl font-black uppercase tracking-tight text-white drop-shadow-sm">
+              Momentos Especiales
             </h2>
           </div>
 
-          {/* Grid de Cards en Glass sobre fondo Rosado */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {[
-              { titulo: 'Verano & Mandarina', tag: 'Cítrica Radiante', desc: 'Aroma fresco de frutos soleados y flores dulces para iluminar tus espacios con energía.', img: '/velas2.png' },
-              { titulo: 'Girl Power Rose', tag: 'Floral Femenina', desc: 'Champagne rosé y toques de peonía en frasco de cristal puro para momentos únicos.', img: '/matrimonio.png' },
-              { titulo: 'Big Dreams', tag: 'Lavanda & Vainilla', desc: 'Calma serena y relajación profunda. La aliada ideal para terminar el día en paz.', img: '/banner.png' }
-            ].map((prod, idx) => (
+          {/* Grid de productos con la información abajo de la foto */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 sm:gap-12">
+            {PRODUCTOS_MOMENTOS.map((prod) => (
               <div 
-                key={idx}
-                className="group rounded-3xl p-6 bg-white/[0.12] backdrop-blur-2xl border border-white/35 shadow-[0_20px_45px_rgba(0,0,0,0.12)] flex flex-col justify-between hover:-translate-y-1.5 transition-all duration-300"
+                key={prod.id}
+                className="group relative rounded-[2.5rem] p-4 flex flex-col transition-all duration-500 hover:-translate-y-2"
               >
-                <div className="relative w-full h-56 sm:h-64 rounded-2xl overflow-hidden mb-5 bg-white/20">
-                  <Image
-                    src={prod.img}
-                    alt={prod.titulo}
-                    fill
-                    unoptimized
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
+                {/* Fondo sutil degradado detrás para enmarcar la card */}
+                <div className={`absolute inset-0 rounded-[2.5rem] bg-gradient-to-b ${prod.bgFondo} opacity-90 shadow-2xl transition-transform duration-500 group-hover:scale-105 pointer-events-none`} />
 
-                <div className="space-y-2 text-left mb-6">
-                  <span className="text-xs uppercase tracking-widest text-[#D8FF38] font-bold">
-                    {prod.tag}
-                  </span>
-                  <h3 className="text-2xl font-black uppercase text-white">
-                    {prod.titulo}
-                  </h3>
-                  <p className="text-sm text-white/90 leading-relaxed font-normal">
-                    {prod.desc}
-                  </p>
-                </div>
+                {/* Contenido general */}
+                <div className="relative z-10 flex flex-col h-full">
+                  
+                  {/* FOTO SUPERIOR COMPLETA */}
+                  <div className="relative w-full h-80 sm:h-96 rounded-[1.8rem] overflow-hidden bg-white/20 shadow-lg mb-6">
+                    <Image
+                      src={prod.img}
+                      alt={prod.titulo}
+                      fill
+                      unoptimized
+                      className="object-cover group-hover:scale-105 transition-transform duration-700"
+                    />
+                  </div>
 
-                <button
-                  onClick={() => cotizar(`Vela ${prod.titulo}`)}
-                  className="w-full py-3.5 rounded-full bg-[#FF9DB1] hover:bg-white text-[#D8FF38] hover:text-[#FF9DB1] text-xs font-black uppercase tracking-[0.2em] shadow-md transition-all cursor-pointer border border-[#D8FF38]/50"
-                >
-                  Cotizar Modelo
-                </button>
+                  {/* INFORMACIÓN DEL PRODUCTO (COLOCADA DEBAJO DE LA FOTO NATURALMENTE) */}
+                  <div className="flex-1 flex flex-col justify-between text-left px-2">
+                    
+                    <div className="space-y-3 mb-6">
+                      <div className="inline-block">
+                        <span className="px-3.5 py-1 rounded-full bg-black/30 text-[10px] font-black uppercase tracking-widest text-[#D8FF38]">
+                          {prod.tag}
+                        </span>
+                      </div>
+                      <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-white leading-tight">
+                        {prod.titulo}
+                      </h3>
+                      <p className="text-sm sm:text-base text-white/90 leading-relaxed font-normal">
+                        {prod.desc}
+                      </p>
+                    </div>
+
+                    {/* Botón cotizar rosado/limón */}
+                    <button
+                      onClick={() => cotizar(`Vela momento: ${prod.titulo}`)}
+                      className="w-full py-4 rounded-full bg-[#FF9DB1] hover:bg-white text-[#D8FF38] hover:text-[#FF9DB1] text-xs font-black uppercase tracking-[0.2em] shadow-md transition-all cursor-pointer border border-[#D8FF38]/50 active:scale-95"
+                    >
+                      Cotizar Modelo
+                    </button>
+
+                  </div>
+
+                </div>
               </div>
             ))}
           </div>
@@ -391,9 +433,9 @@ export default function HomeVelas() {
           
           {/* Imagen del producto */}
           <div className="lg:col-span-6 relative flex justify-center">
-            <div className="relative w-full max-w-md h-[380px] sm:h-[480px] rounded-3xl overflow-hidden shadow-xl border border-stone-100">
+            <div className="relative w-full max-w-md h-[480px] sm:h-[480px] rounded-3xl overflow-hidden shadow-xl border border-stone-100">
               <Image
-                src="/matrimonio.png"
+                src="/Ilustraciones.png"
                 alt="Detalle vela artesanal"
                 fill
                 unoptimized
@@ -459,10 +501,10 @@ export default function HomeVelas() {
         {/* Mensaje y Botón central */}
         <div className="relative z-10 max-w-2xl space-y-6">
           <h2 className="text-4xl sm:text-7xl font-black uppercase tracking-tight text-white drop-shadow-lg leading-tight">
-            El Ritual del Fuego
+            TABERA by DANIELA FORERO
           </h2>
           <p className="text-lg sm:text-2xl text-white/90 leading-relaxed font-normal drop-shadow-md">
-            Un instante de pausa y calidez en medio del caos cotidiano.
+         
           </p>
           <div>
             <button
