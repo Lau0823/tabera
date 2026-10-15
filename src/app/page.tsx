@@ -359,7 +359,7 @@ export default function HomeVelas() {
 
             </span>
             <h2 className={`${robotoCondensed.className} text-3xl sm:text-5xl font-black uppercase tracking-tight text-stone-700 leading-tight`}>
-              Luz pura sin artificios ni residuos negros.   </h2>
+            </h2>
             <p className={`${sourceCodePro.className} text-sm sm:text-base text-stone-500 leading-relaxed font-normal`}>
               Nuestros recipientes de vidrio son reutilizables y las fragancias se infunden con aceites esenciales botánicos de alta difusión que aromatizan el ambiente incluso apagadas.
             </p>
