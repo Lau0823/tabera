@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'tabera | Detalles de Alta Gama',
+  title: 'tabera |velas',
   description: 'Velas escultóricas exclusivas y recuerdos aromáticos de cera de soya.',
 };
 

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Roboto_Condensed } from 'next/font/google';
+import { Roboto_Condensed, Source_Code_Pro } from 'next/font/google';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -13,9 +13,17 @@ import {
   Sparkles 
 } from 'lucide-react';
 
+// Tipografía para Títulos (como estaba antes)
 const robotoCondensed = Roboto_Condensed({
   subsets: ['latin'],
   weight: ['700', '800', '900'],
+  display: 'swap',
+});
+
+// Tipografía para el cuerpo del texto, precios, tags y botones
+const sourceCodePro = Source_Code_Pro({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
   display: 'swap',
 });
 
@@ -84,6 +92,9 @@ export default function HomeVelas() {
   const animacionRef = useRef<number | null>(null);
   const [enPausa, setEnPausa] = useState(false);
 
+  // Estado para la máquina de escribir del banner de video
+  const [textoVideo, setTextoVideo] = useState('');
+
   // Rotación suave del banner principal
   useEffect(() => {
     const intervalFotos = setInterval(() => {
@@ -92,6 +103,43 @@ export default function HomeVelas() {
     }, 5500);
     return () => clearInterval(intervalFotos);
   }, [imagenActiva]);
+
+  // Máquina de escribir continua para "TABERA BY DANIELA FORERO"
+  useEffect(() => {
+    const frase = 'TABERA BY DANIELA FORERO';
+    let index = 0;
+    let borrando = false;
+
+    const interval = setInterval(() => {
+      if (!borrando) {
+        setTextoVideo(frase.slice(0, index + 1));
+        index++;
+        if (index === frase.length) {
+          borrando = true;
+          clearInterval(interval);
+          setTimeout(() => {
+            const reanudar = setInterval(() => {
+              if (borrando) {
+                setTextoVideo(frase.slice(0, index - 1));
+                index--;
+                if (index === 0) {
+                  borrando = false;
+                }
+              } else {
+                setTextoVideo(frase.slice(0, index + 1));
+                index++;
+                if (index === frase.length) {
+                  borrando = true;
+                }
+              }
+            }, 80);
+          }, 2000);
+        }
+      }
+    }, 110);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Desplazamiento fluido continuo del carrusel
   useEffect(() => {
@@ -139,7 +187,7 @@ export default function HomeVelas() {
   };
 
   return (
-    <main className={`relative w-full min-h-screen overflow-x-hidden bg-white text-stone-700 ${robotoCondensed.className}`}>
+    <main className={`relative w-full min-h-screen overflow-x-hidden bg-white text-stone-700 ${sourceCodePro.className}`}>
 
       {/* ========================================================
           HEADER: MENÚ HAMBURGUESA
@@ -196,16 +244,16 @@ export default function HomeVelas() {
           })}
         </div>
 
-        {/* Logo "tabera" + Texto superior */}
+        {/* Logo "tabera" + Texto superior (con Roboto Condensed en títulos) */}
         <div className="absolute top-6 sm:top-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center pointer-events-none text-center px-4 w-full max-w-4xl">
-          <h1 className="text-4xl sm:text-7xl md:text-8xl font-black uppercase tracking-[0.25em] text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.7)] leading-none">
+          <h1 className={`${robotoCondensed.className} text-4xl sm:text-7xl md:text-8xl font-black uppercase tracking-[0.25em] text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.7)] leading-none`}>
             tabera
           </h1>
           <div className="mt-2 sm:mt-4 flex flex-col items-center gap-0.5">
-            <span className="text-sm sm:text-lg md:text-xl font-bold uppercase tracking-[0.35em] text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+            <span className={`${sourceCodePro.className} text-xs sm:text-base md:text-lg font-semibold uppercase tracking-[0.35em] text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]`}>
               Encuentra
             </span>
-            <span className="text-2xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-white drop-shadow-[0_4px_25px_rgba(0,0,0,0.85)] leading-tight">
+            <span className={`${robotoCondensed.className} text-2xl sm:text-5xl md:text-6xl font-black uppercase tracking-tight text-white drop-shadow-[0_4px_25px_rgba(0,0,0,0.85)] leading-tight`}>
               TODO LO QUE NECESITAS
             </span>
           </div>
@@ -232,7 +280,7 @@ export default function HomeVelas() {
         <div className="relative z-30 w-full h-full flex flex-col justify-end items-center pb-12 sm:pb-16 px-4 pointer-events-none">
           <button
             onClick={() => agregarAlCarritoWhatsApp('Cotización General', 'Banner')}
-            className="pointer-events-auto px-14 py-4.5 rounded-full bg-[#C43670] hover:bg-[#aa2a5f] text-[#F3CC97] text-lg sm:text-xl font-black uppercase tracking-[0.2em] shadow-[0_12px_35px_rgba(196,54,112,0.5)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-[#F3CC97]/40"
+            className={`${sourceCodePro.className} pointer-events-auto px-14 py-4.5 rounded-full bg-[#C43670] hover:bg-[#aa2a5f] text-[#F3CC97] text-base sm:text-lg font-bold uppercase tracking-[0.2em] shadow-[0_12px_35px_rgba(196,54,112,0.5)] hover:scale-105 active:scale-95 transition-all cursor-pointer border border-[#F3CC97]/40`}
           >
             Cotizar
           </button>
@@ -280,7 +328,7 @@ export default function HomeVelas() {
                 </div>
               </div>
 
-              <span className="text-sm sm:text-base font-bold uppercase tracking-wider text-stone-700 group-hover:text-[#C43670] transition-colors">
+              <span className={`${robotoCondensed.className} text-base sm:text-lg font-bold uppercase tracking-wider text-stone-700 group-hover:text-[#C43670] transition-colors`}>
                 {cat.titulo}
               </span>
             </Link>
@@ -307,22 +355,35 @@ export default function HomeVelas() {
           </div>
 
           <div className="lg:col-span-6 space-y-5 text-left">
-            <span className="text-xs uppercase tracking-[0.3em] text-[#C43670] font-bold font-mono">
-          
+            <span className={`${sourceCodePro.className} text-xs uppercase tracking-[0.3em] text-[#C43670] font-bold`}>
+              [ ANATOMÍA DE LA VELA ]
             </span>
-            <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-stone-700 leading-tight">
-              
+            <h2 className={`${robotoCondensed.className} text-3xl sm:text-5xl font-black uppercase tracking-tight text-stone-700 leading-tight`}>
+              Luz pura sin artificios ni residuos negros.
             </h2>
-            <p className="text-base sm:text-lg text-stone-500 leading-relaxed font-normal">
+            <p className={`${sourceCodePro.className} text-sm sm:text-base text-stone-500 leading-relaxed font-normal`}>
               Nuestros recipientes de vidrio son reutilizables y las fragancias se infunden con aceites esenciales botánicos de alta difusión que aromatizan el ambiente incluso apagadas.
             </p>
 
- 
+            <div className={`${sourceCodePro.className} space-y-3 pt-2 text-stone-600 text-xs sm:text-sm font-medium`}>
+              <div className="flex items-center gap-3">
+                <Flame className="w-5 h-5 text-[#C43670] shrink-0" />
+                <span>45 a 55 horas de combustión homogénea</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <ShieldCheck className="w-5 h-5 text-[#C43670] shrink-0" />
+                <span>Libre de parafinas, ftalatos y químicos pesados</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Sparkles className="w-5 h-5 text-[#C43670] shrink-0" />
+                <span>Empaque con lazo de algodón listo para regalo</span>
+              </div>
+            </div>
 
             <div className="pt-3">
               <button
                 onClick={() => agregarAlCarritoWhatsApp('Personalización de Vela', 'A consultar')}
-                className="px-10 py-3.5 rounded-full bg-[#C43670] hover:bg-[#aa2a5f] text-[#F3CC97] text-xs font-black uppercase tracking-[0.2em] shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer border border-[#F3CC97]/40"
+                className={`${sourceCodePro.className} px-10 py-3.5 rounded-full bg-[#C43670] hover:bg-[#aa2a5f] text-[#F3CC97] text-xs font-bold uppercase tracking-[0.2em] shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer border border-[#F3CC97]/40`}
               >
                 Personalizar Pedido
               </button>
@@ -378,10 +439,10 @@ export default function HomeVelas() {
                 />
               </div>
 
-              <h4 className="text-xs sm:text-sm font-black uppercase text-stone-700 tracking-wider line-clamp-1">
+              <h4 className={`${robotoCondensed.className} text-sm sm:text-base font-bold uppercase text-stone-700 tracking-wider line-clamp-1`}>
                 {item.titulo}
               </h4>
-              <p className="text-xs sm:text-sm font-bold text-[#C43670] mt-0.5">
+              <p className={`${sourceCodePro.className} text-xs sm:text-sm font-semibold text-[#C43670] mt-0.5`}>
                 {item.precio}
               </p>
 
@@ -390,7 +451,7 @@ export default function HomeVelas() {
                   e.stopPropagation();
                   agregarAlCarritoWhatsApp(item.titulo, item.precio);
                 }}
-                className="mt-2 px-4 py-1.5 rounded-full bg-[#C43670] hover:bg-[#aa2a5f] text-[#F3CC97] text-[10px] font-black uppercase tracking-wider shadow-sm transition-all flex items-center gap-1 active:scale-95"
+                className={`${sourceCodePro.className} mt-2 px-4 py-1.5 rounded-full bg-[#C43670] hover:bg-[#aa2a5f] text-[#F3CC97] text-[10px] font-bold uppercase tracking-wider shadow-sm transition-all flex items-center gap-1 active:scale-95`}
               >
                 <ShoppingCart className="w-3 h-3" />
                 <span>Pedir</span>
@@ -425,19 +486,19 @@ export default function HomeVelas() {
               {/* Información, Precio y Materiales */}
               <div className="space-y-3 text-left mb-6">
                 <div className="flex items-baseline justify-between gap-2">
-                  <h3 className="text-2xl font-black uppercase tracking-tight text-stone-700">
+                  <h3 className={`${robotoCondensed.className} text-2xl font-black uppercase tracking-tight text-stone-700`}>
                     {prod.titulo}
                   </h3>
-                  <span className="text-lg font-black text-[#C43670]">
+                  <span className={`${sourceCodePro.className} text-base font-bold text-[#C43670]`}>
                     {prod.precio}
                   </span>
                 </div>
 
                 <div className="p-3.5 rounded-2xl bg-stone-50 border border-stone-100 space-y-1">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-[#C43670] block">
+                  <span className={`${sourceCodePro.className} text-[10px] font-bold uppercase tracking-wider text-[#C43670] block`}>
                     Materiales & Composición:
                   </span>
-                  <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                  <p className={`${sourceCodePro.className} text-xs sm:text-sm text-stone-600 leading-relaxed`}>
                     {prod.materiales}
                   </p>
                 </div>
@@ -446,7 +507,7 @@ export default function HomeVelas() {
               {/* Botón Carrito de Compras (Redirige a WhatsApp) */}
               <button
                 onClick={() => agregarAlCarritoWhatsApp(prod.titulo, prod.precio)}
-                className="w-full py-3.5 rounded-full bg-[#C43670] hover:bg-[#aa2a5f] text-[#F3CC97] text-xs font-black uppercase tracking-[0.2em] shadow-md hover:scale-[1.02] active:scale-95 transition-all cursor-pointer border border-[#F3CC97]/40 flex items-center justify-center gap-2"
+                className={`${sourceCodePro.className} w-full py-3.5 rounded-full bg-[#C43670] hover:bg-[#aa2a5f] text-[#F3CC97] text-xs font-bold uppercase tracking-[0.2em] shadow-md hover:scale-[1.02] active:scale-95 transition-all cursor-pointer border border-[#F3CC97]/40 flex items-center justify-center gap-2`}
               >
                 <ShoppingCart className="w-4 h-4 stroke-[2.5]" />
                 <span>Añadir al Carrito</span>
@@ -455,6 +516,61 @@ export default function HomeVelas() {
           ))}
         </div>
       </section>
+
+      {/* ========================================================
+          6. BANNER DE VIDEO FULL SCREEN CON MÁQUINA DE ESCRIBIR
+          ======================================================== */}
+      <section className="relative w-full h-[100dvh] overflow-hidden bg-black flex items-center justify-center text-center px-6">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-75"
+        >
+          <source src="/WhatsApp Video 2026-06-11 at 16.54.48.mp4" type="video/mp4" />
+        </video>
+
+        {/* Capa de contraste cinematográfica */}
+        <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+
+        {/* Título en Roboto Condensed con efecto máquina de escribir */}
+        <div className="relative z-10 max-w-4xl px-4 flex items-center justify-center">
+          <h2 className={`${robotoCondensed.className} text-3xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-[0.18em] text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.9)] leading-tight`}>
+            {textoVideo}
+            <span className="inline-block w-1.5 sm:w-2.5 h-8 sm:h-16 ml-2 bg-[#F3CC97] animate-pulse align-middle" />
+          </h2>
+        </div>
+      </section>
+
+      {/* ========================================================
+          7. FOOTER EDITORIAL (BG RASPBERRY ROSE #C43670 + LETRA SUNSET #F3CC97)
+          ======================================================== */}
+      <footer className="w-full bg-[#C43670] text-[#F3CC97] py-12 px-6 border-t border-[#F3CC97]/20">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+          
+          <div className="space-y-1">
+            <h3 className={`${robotoCondensed.className} text-2xl font-black uppercase tracking-[0.2em] text-[#F3CC97]`}>
+              tabera
+            </h3>
+            <p className={`${sourceCodePro.className} text-xs text-[#F3CC97]/80`}>
+              Velas artesanales de cera vegetal botánica.
+            </p>
+          </div>
+
+          <div className={`${sourceCodePro.className} text-xs text-[#F3CC97]/90 tracking-wider`}>
+            Hecho por{' '}
+            <span className="font-bold uppercase text-[#F3CC97] tracking-widest hover:underline transition-all">
+              Sí Forever Studio
+            </span>
+          </div>
+
+          <div className={`${sourceCodePro.className} text-[11px] text-[#F3CC97]/75`}>
+            © {new Date().getFullYear()} Tabera. Todos los derechos reservados.
+          </div>
+
+        </div>
+      </footer>
 
       {/* ========================================================
           MENÚ LATERAL DRAWER
@@ -470,7 +586,7 @@ export default function HomeVelas() {
           >
             <div className="space-y-6">
               <div className="flex justify-between items-center border-b pb-4">
-                <span className="text-2xl font-black uppercase tracking-wider text-stone-700">tabera</span>
+                <span className={`${robotoCondensed.className} text-2xl font-black uppercase tracking-wider text-stone-700`}>tabera</span>
                 <button onClick={() => setMenuAbierto(false)} className="text-xl font-bold text-stone-500">✕</button>
               </div>
               
@@ -480,7 +596,7 @@ export default function HomeVelas() {
                     key={c.id}
                     href={c.ruta}
                     onClick={() => setMenuAbierto(false)}
-                    className="text-base font-bold uppercase text-stone-600 hover:text-[#C43670] transition-colors"
+                    className={`${robotoCondensed.className} text-base font-bold uppercase text-stone-600 hover:text-[#C43670] transition-colors`}
                   >
                     {c.titulo}
                   </Link>
@@ -490,7 +606,7 @@ export default function HomeVelas() {
 
             <button
               onClick={() => { setMenuAbierto(false); agregarAlCarritoWhatsApp('Consulta General', 'Menú'); }}
-              className="w-full py-3.5 rounded-full bg-[#C43670] hover:bg-[#aa2a5f] text-[#F3CC97] font-black text-xs uppercase tracking-widest shadow-[0_8px_20px_rgba(196,54,112,0.35)] transition-all cursor-pointer border border-[#F3CC97]/40"
+              className={`${sourceCodePro.className} w-full py-3.5 rounded-full bg-[#C43670] hover:bg-[#aa2a5f] text-[#F3CC97] font-bold text-xs uppercase tracking-widest shadow-[0_8px_20px_rgba(196,54,112,0.35)] transition-all cursor-pointer border border-[#F3CC97]/40`}
             >
               Cotizar por WhatsApp
             </button>
